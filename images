@@ -1,1 +1,16 @@
-
+ <img src="crime_category_linear.svg" alt="Crime by category in SF (linear)" style="max-width: 100%;">
+    <img src="crime_category_log.svg" alt="Crime by category in SF (log)" style="max-width: 100%;">
+    <img src="yearly_crime_trends.svg" alt="Yearly crime trends by Category in SF" style="max-width: 100%;">
+    <img src="crimes_district.svg" alt="Crimes per Police District" style="max-width: 100%;">
+    <img src="crimes_district_bar.svg" alt="Crimes per district (Stacked Bar Chart)" style="max-width: 100%;">
+    <img src="heatmap_crimes_district.svg" alt="Heatmap of Crime Incidents by District" style="max-width: 100%;">
+    <img src="rp_crime_district.svg" alt="Relative Probabilities of Crime Types by District (P(crime|district) / P(crime))" style="max-width: 100%;">
+    <img src="rp_crime_district_heatmap.svg" alt="Heatmap of Relative Probabilities of Crime Types by District (P(crime|district) / P(crime))" style="max-width: 100%;">
+    <img src="crime_category_date_log.svg" alt="Log-Log Plot per Crime Category (by Date)" style="max-width: 100%;">
+    <img src="sf_100msquare.svg" alt="SF´crimes 2d visualization into a 100m square" style="max-width: 100%;">
+    <img src="lt_100msquare.svg" alt="Larceny/Theft per 100m x 100m grid square" style="max-width: 100%;">
+    <img src="distribution_theft_log.svg" alt="Distribution of theft counts (log-log)" style="max-width: 100%;">
+    <img src="crimes_overtime_category.svg" alt="Crime Trends Over Time per Category" style="max-width: 100%;">
+    <img src="pairwise_category_correlation.svg" alt="Pairwise Crime Category Correlations (Daily Counts)" style="max-width: 100%;">
+    <img src="crime_trends_lr.svg" alt="Crime Trends Over Time with Linear Regression" style="max-width: 100%;">
+    <img src="pairwise_crime_corrrelation.svg" alt="Pairwise Crime Correlations — R² | Green=Most Similar | Red=Most Dissimilar" style="max-width: 100%;">
