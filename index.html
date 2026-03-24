@@ -1,32 +1,594 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Data Viz Site</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SF Crime Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:     #faf7f2;
+      --parchment: #f2ece0;
+      --warm-mid:  #e8dcc8;
+      --tan:       #c9b89a;
+      --brown:     #8c6d46;
+      --dark:      #2e2416;
+      --accent:    #b84a1e;
+      --accent-lt: #f5e6df;
+      --teal:      #2a6b6b;
+      --teal-lt:   #dff0ef;
+      --text:      #3a2e1e;
+      --muted:     #7a6a52;
+      --border:    rgba(140,109,70,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,247,242,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-brand {
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: var(--parchment);
+      color: var(--text);
+    }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 4rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-lt);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--dark);
+      margin-bottom: 1.25rem;
+      max-width: 680px;
+    }
+
+    .hero-meta {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta .dot { color: var(--tan); }
+
+    .hero-meta strong { color: var(--text); font-weight: 600; }
+
+    .lead {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--muted);
+      border-left: 3px solid var(--accent);
+      padding-left: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      margin-bottom: 4rem;
+      scroll-margin-top: 70px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--brown);
+      margin-bottom: 0.5rem;
+    }
+
+    .section h2 {
+      font-family: 'Lora', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      max-width: 680px;
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
+
+    .stat-card {
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brown);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Lora', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── CHART BLOCKS ── */
+    .chart-block {
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.75rem 0;
+      overflow: hidden;
+    }
+
+    .chart-block .chart-title {
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 3px;
+    }
+
+    .chart-block .chart-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .chart-block img,
+    .chart-block object {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      background: var(--cream);
+    }
+
+    .interactive-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--teal);
+      background: var(--teal-lt);
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .interactive-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .iframe-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--cream);
+    }
+
+    .iframe-wrap iframe {
+      width: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: var(--accent-lt);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .callout strong { color: var(--accent); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0 3rem;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--brown); }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <p>This site will soon contain interactive data visualizations about crime in San Francisco.</p>
-    <img src="images/crime_category_linear.svg" alt="Crime by category in SF (linear)" style="max-width: 100%;">
-    <img src="images/crime_category_log.svg" alt="Crime by category in SF (log)" style="max-width: 100%;">
-    <img src="images/yearly_crime_trends.svg" alt="Yearly crime trends by Category in SF" style="max-width: 100%;">
-    <img src="images/crimes_district.svg" alt="Crimes per Police District" style="max-width: 100%;">
-    <img src="images/crimes_district_bar.svg" alt="Crimes per district (Stacked Bar Chart)" style="max-width: 100%;">
-    <img src="images/heatmap_crimes_district.svg" alt="Heatmap of Crime Incidents by District" style="max-width: 100%;">
-    <img src="images/rp_crime_district.svg" alt="Relative Probabilities of Crime Types by District (P(crime|district) / P(crime))" style="max-width: 100%;">
-    <img src="images/rp_crime_district_heatmap.svg" alt="Heatmap of Relative Probabilities of Crime Types by District (P(crime|district) / P(crime))" style="max-width: 100%;">
-    <img src="images/crime_category_date_log.svg" alt="Log-Log Plot per Crime Category (by Date)" style="max-width: 100%;">
-    <img src="images/sf_100msquare.svg" alt="SF´crimes 2d visualization into a 100m square" style="max-width: 100%;">
-    <img src="images/lt_100msquare.svg" alt="Larceny/Theft per 100m x 100m grid square" style="max-width: 100%;">
-    <img src="images/distribution_theft_log.svg" alt="Distribution of theft counts (log-log)" style="max-width: 100%;">
-    <img src="images/crimes_overtime_category.svg" alt="Crime Trends Over Time per Category" style="max-width: 100%;">
-    <img src="images/pairwise_category_correlation.svg" alt="Pairwise Crime Category Correlations (Daily Counts)" style="max-width: 100%;">
-    <img src="images/crime_trends_lr.svg" alt="Crime Trends Over Time with Linear Regression" style="max-width: 100%;">
-    <img src="images/pairwise_crime_corrrelation.svg" alt="Pairwise Crime Correlations — R² | Green=Most Similar | Red=Most Dissimilar" style="max-width: 100%;">
-    <iframe src="visualizations/crime_rate_district_interactive.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="visualizations/ct_rate_district_interactive.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="visualizations/ct_amount_week_district_interactive.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="visualizations/map.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="visualizations/mapheatmap.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="visualizations/mapheatmapProstitution.html" width="100%" height="600px" frameborder="0"></iframe>
+
+<nav>
+  <a class="nav-brand" href="#">SF Crime Analysis</a>
+  <div class="nav-links">
+    <a href="#categories">Categories</a>
+    <a href="#overtime">Over time</a>
+    <a href="#districts">Districts</a>
+    <a href="#maps">Maps</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <header class="hero fade-in">
+    <span class="hero-tag">Data Analysis · San Francisco</span>
+    <h1>Understanding crime in San Francisco through a decade of data</h1>
+    <div class="hero-meta">
+      <span>By <strong>Diogo Forte</strong></span>
+      <span class="dot">·</span>
+      <span>DTU Social Data Analysis</span>
+      <span class="dot">·</span>
+      <span>March 2026</span>
+    </div>
+  </header>
+
+  <p class="lead fade-in">
+    San Francisco has one of the most richly documented crime datasets in the United States. Using over a decade of incident reports, this analysis explores how crime varies by category, district, and time — and what the patterns reveal about urban safety.
+  </p>
+
+  <!-- SECTION 1: CATEGORIES -->
+  <section class="section fade-in" id="categories">
+    <div class="section-label">Section 01</div>
+    <h2>Which crimes are most common?</h2>
+    <p>
+      Theft dominates San Francisco's crime landscape, accounting for a large majority of all reported incidents. But the picture changes significantly depending on whether we look at raw counts or a logarithmic scale — the latter reveals the full spread of categories without the most common ones overwhelming everything else.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Most common</div>
+        <div class="stat-value">Theft</div>
+        <div class="stat-desc">Largest share of all incidents</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Categories tracked</div>
+        <div class="stat-value">30+</div>
+        <div class="stat-desc">Distinct crime types</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Dataset period</div>
+        <div class="stat-value">10+ yrs</div>
+        <div class="stat-desc">SF OpenData incident reports</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime by category</div>
+      <div class="chart-sub">Share of total incidents across all recorded years</div>
+      <img src="images/crime_by_category.svg" alt="Crime by category" />
+    </div>
+
+    <p>
+      The log-scale view below reveals the full range of crime types — from thousands of theft incidents down to rare offences — without the most frequent categories flattening everything else into invisibility.
+    </p>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime by category (log scale)</div>
+      <div class="chart-sub">Logarithmic scale to compare across orders of magnitude</div>
+      <img src="images/crime_by_category_log.svg" alt="Crime by category log scale" />
+    </div>
+
+    <div class="callout">
+      <strong>Key insight:</strong> Theft-related crimes account for a disproportionately large share of incidents, while violent crimes — though serious — represent a much smaller fraction of the total caseload.
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime category over date (log)</div>
+      <div class="chart-sub">Temporal distribution of categories on a log scale</div>
+      <img src="images/crime_category_date_log.svg" alt="Crime category date log" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Distribution of theft incidents (log)</div>
+      <div class="chart-sub">How theft sub-types are distributed</div>
+      <img src="images/distribution_theft_log.svg" alt="Distribution theft log" />
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 2: OVER TIME -->
+  <section class="section fade-in" id="overtime">
+    <div class="section-label">Section 02</div>
+    <h2>How has crime changed over time?</h2>
+    <p>
+      Crime is not static. Looking at trends over the years reveals important shifts — some driven by policy changes, others by social and economic forces. The overall trend shows notable variation both before and after key events like the 2008 financial crisis and the COVID-19 pandemic.
+    </p>
+
+    <div class="chart-block">
+      <div class="chart-title">Yearly crime trends</div>
+      <div class="chart-sub">Total incidents per year, all categories combined</div>
+      <img src="images/yearly_crime_trends.svg" alt="Yearly crime trends" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime trends over time by category</div>
+      <div class="chart-sub">Annual totals broken down by crime type</div>
+      <img src="images/crimes_overtime_category.svg" alt="Crimes over time by category" />
+    </div>
+
+    <p>
+      Linear regression helps separate the signal from the noise. Below, trend lines for each category show whether crime is genuinely rising, falling, or staying flat over the long run.
+    </p>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime trends — linear regression</div>
+      <div class="chart-sub">Long-run direction of each crime category</div>
+      <img src="images/crime_trends_lr.svg" alt="Crime trends linear regression" />
+    </div>
+
+    <div class="chart-block">
+      <div class="interactive-badge">Interactive</div>
+      <div class="chart-title">Explore crime trends by district</div>
+      <div class="chart-sub">Filter by district and crime type — click to interact</div>
+      <div class="iframe-wrap">
+        <iframe src="visualizations/ct_rate_district_interactive.html" height="520" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="interactive-badge">Interactive</div>
+      <div class="chart-title">Weekly crime amounts by district</div>
+      <div class="chart-sub">Day-of-week patterns across neighbourhoods</div>
+      <div class="iframe-wrap">
+        <iframe src="visualizations/ct_amount_week_district_interactive.html" height="520" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 3: DISTRICTS -->
+  <section class="section fade-in" id="districts">
+    <div class="section-label">Section 03</div>
+    <h2>Where does crime concentrate?</h2>
+    <p>
+      Crime is far from evenly distributed across San Francisco's neighbourhoods. Some districts consistently see higher incident rates — a pattern that holds even when controlling for population size and density.
+    </p>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime by district</div>
+      <div class="chart-sub">Total incidents per police district</div>
+      <img src="images/crimes_district.svg" alt="Crime by district" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime by district (bar chart)</div>
+      <div class="chart-sub">Ranked comparison across all districts</div>
+      <img src="images/crimes_district_bar.svg" alt="Crime by district bar" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Heatmap — crime by district and category</div>
+      <div class="chart-sub">Which crime types dominate in each district</div>
+      <img src="images/heatmap_crimes_district.svg" alt="Heatmap crimes district" />
+    </div>
+
+    <p>
+      The pairwise correlation plots below reveal which crime categories tend to co-occur across districts — a signal of underlying social conditions rather than coincidence.
+    </p>
+
+    <div class="chart-block">
+      <div class="chart-title">Pairwise category correlation</div>
+      <div class="chart-sub">How crime types relate to one another</div>
+      <img src="images/pairwise_category_correlation.svg" alt="Pairwise category correlation" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Pairwise crime correlation</div>
+      <div class="chart-sub">Correlation matrix across crime types</div>
+      <img src="images/pairwise_crime_corrrelation.svg" alt="Pairwise crime correlation" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crimes per 100m² by district</div>
+      <div class="chart-sub">Density-adjusted comparison — less than 100m² threshold</div>
+      <img src="images/lt_100msquare.svg" alt="Less than 100m square" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime density — SF 100m² grid</div>
+      <div class="chart-sub">Full spatial density across the city</div>
+      <img src="images/sf_100msquare.svg" alt="SF 100m square" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime rate by district — regression</div>
+      <div class="chart-sub">Regression plot per district</div>
+      <img src="images/rp_crime_district.svg" alt="Regression plot crime district" />
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Crime rate heatmap by district — regression</div>
+      <div class="chart-sub">Regression heatmap view</div>
+      <img src="images/rp_crime_district_heatmap.svg" alt="Regression heatmap crime district" />
+    </div>
+
+    <div class="chart-block">
+      <div class="interactive-badge">Interactive</div>
+      <div class="chart-title">Crime rate by district — interactive</div>
+      <div class="chart-sub">Filter and explore by district</div>
+      <div class="iframe-wrap">
+        <iframe src="visualizations/crime_rate_district_interactive.html" height="520" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION 4: MAPS -->
+  <section class="section fade-in" id="maps">
+    <div class="section-label">Section 04</div>
+    <h2>Mapping crime across the city</h2>
+    <p>
+      Maps bring the spatial dimension to life. The interactive maps below let you zoom in, pan around, and filter by crime type — revealing geographic clusters that static charts cannot fully convey.
+    </p>
+
+    <div class="chart-block">
+      <div class="interactive-badge">Interactive</div>
+      <div class="chart-title">Crime incident map</div>
+      <div class="chart-sub">All recorded incidents plotted by location — zoom and filter to explore</div>
+      <div class="iframe-wrap">
+        <iframe src="visualizations/map.html" height="560" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="interactive-badge">Interactive</div>
+      <div class="chart-title">Crime density heatmap</div>
+      <div class="chart-sub">Hotspot intensity map across SF neighbourhoods</div>
+      <div class="iframe-wrap">
+        <iframe src="visualizations/mapheatmap.html" height="560" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Note:</strong> The prostitution heatmap below highlights a specific crime category that shows a highly concentrated spatial pattern — a common finding in urban crime research.
+    </div>
+
+    <div class="chart-block">
+      <div class="interactive-badge">Interactive</div>
+      <div class="chart-title">Prostitution incidents heatmap</div>
+      <div class="chart-sub">Spatial concentration of a specific crime category</div>
+      <div class="iframe-wrap">
+        <iframe src="visualizations/mapheatmapProstitution.html" height="560" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Data source: <a href="https://data.sfgov.org" target="_blank">SF OpenData</a> · Analysis by Diogo Forte · DTU 4th Semester, Social Data Analysis · March 2026</p>
+    <p style="margin-top:6px;">Built with Python, Matplotlib, Folium, and GitHub Pages.</p>
+  </footer>
+
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
