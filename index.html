@@ -133,6 +133,50 @@
       margin: 2rem 0;
     }
 
+    /* ── SECTION NAV ── */
+    .section-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 1.5rem 0;
+    }
+
+    .section-nav-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .section-nav-item:hover {
+      background: var(--warm-mid);
+      border-color: var(--tan);
+    }
+
+    .section-nav-number {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .section-nav-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 520px) {
+      .section-nav { grid-template-columns: repeat(2, 1fr); }
+    }
+
     /* ── SECTIONS ── */
     .section {
       margin-bottom: 4rem;
@@ -360,6 +404,45 @@
       line-height: 1.5;
     }
 
+    /* ── TAG GROUPS (Section 1) ── */
+    .tag-group {
+      margin-top: 1.25rem;
+    }
+
+    .tag-group-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--brown);
+      margin-bottom: 0.6rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--brown);
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 11px;
+      line-height: 1.6;
+    }
+
+    .tag.accent {
+      color: var(--accent);
+      background: var(--accent-lt);
+      border-color: rgba(184, 74, 30, 0.2);
+      font-weight: 600;
+    }
+
     /* ── CHART BLOCKS ── */
     .chart-block {
       background: var(--parchment);
@@ -504,6 +587,17 @@
 </head>
 <body>
 
+<nav>
+  <a class="nav-brand" href="#">SF Crime Analysis</a>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#categories">Dataset</a>
+    <a href="#overtime">Criminality</a>
+    <a href="#districts">Districts</a>
+    <a href="#maps">Maps</a>
+  </div>
+</nav>
+
 <div class="page">
 
   <!-- HERO -->
@@ -519,13 +613,33 @@
     </div>
   </header>
 
-  <!-- LEAD & STATS (outside <header>, properly wrapped) -->
+  <!-- LEAD & SECTION NAV (outside <header>, properly wrapped) -->
   <div class="fade-in" id="overview">
     <p class="lead">
       San Francisco is currently undergoing a fentanyl crisis, as many other cities in the United States.
       A crime data analysis revealed that the city has suffered a previous drug crisis and was able to mitigate
       the issue. Could we use previous data on drug/narcotics crime to fight this new epidemic?
     </p>
+
+    <div class="section-nav">
+      <a href="#categories" class="section-nav-item">
+        <span class="section-nav-number">01</span>
+        <span class="section-nav-title">Dataset</span>
+      </a>
+      <a href="#overtime" class="section-nav-item">
+        <span class="section-nav-number">02</span>
+        <span class="section-nav-title">Criminality</span>
+      </a>
+      <a href="#districts" class="section-nav-item">
+        <span class="section-nav-number">03</span>
+        <span class="section-nav-title">Districts</span>
+      </a>
+      <a href="#maps" class="section-nav-item">
+        <span class="section-nav-number">04</span>
+        <span class="section-nav-title">Maps</span>
+      </a>
+    </div>
+  </div>
 
   <hr class="divider" />
 
@@ -564,18 +678,37 @@
       </p>
     </div>
 
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-label">Category</div>
-        <div class="stat-value">Drugs / Narcotic</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Dataset period</div>
-        <div class="stat-value">2003–2025</div>
+    <div class="tag-group">
+      <div class="editorial-body">
+        <p>
+          The data covers <strong>11 crime categories</strong>, ranging from violent offences to quality-of-life incidents.
+          Drug and narcotic crimes are our primary focus — but the full picture includes assault, warrants,
+          larceny and theft, robbery, motor vehicle theft, vandalism, forgery, liquor law violations,
+          prostitution, and suicide-related incidents.
+        </p>
+
+        <div class="inline-stat">
+          <span class="inline-stat-value">11 categories</span>
+          <span class="inline-stat-label">from violent crime to drug offences, all tracked across the full timeline</span>
+        </div>
+
+        <p>
+          Geographically, the data is divided across <strong>10 police districts</strong> — Central, Southern, Bayview,
+          Mission, Park, Richmond, Ingleside, Taraval, Northern, and Tenderloin.
+          The Tenderloin has been at the epicentre of the fentanyl crisis, but patterns shift across all districts over time.
+        </p>
+
+        <div class="inline-stat">
+          <span class="inline-stat-value">10 districts</span>
+          <span class="inline-stat-label">covering every neighbourhood in San Francisco, from Bayview to the Tenderloin</span>
+        </div>
       </div>
     </div>
 
   </section>
+
+  <hr class="divider" />
+
   <section class="section fade-in" id="overtime">
     <div class="section-label">Section 02</div>
     <h2>How did the crimes evolve over time?</h2>
@@ -584,12 +717,9 @@
       <div class="chart-block">
         <div class="chart-title">Criminality throughout the years</div>
         <div class="chart-sub">Share of total incidents across all recorded years</div>
-        <img src="images/crime_plot.png" alt="Crime categories throughout the years" />
+        <img src="images/crime2.png" alt="Crime categories throughout the years" />
       </div>
-      <div class="insight-card">
-        <div class="insight-eyebrow">Key finding</div>
-        <div class="insight-quote">&ldquo;</div>
-        <p class="insight-body">
+       <p> 
           Most offenses bottomed out during 2019–2021 — but narcotics are the exception.
           We are seeing a <strong>relentless, exponential increase</strong> that mirrors the crisis of 2005–2010.
         </p>
