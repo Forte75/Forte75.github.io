@@ -590,11 +590,10 @@
 <nav>
   <a class="nav-brand" href="#">SF Crime Analysis</a>
   <div class="nav-links">
-    <a href="#overview">Overview</a>
-    <a href="#categories">Dataset</a>
-    <a href="#overtime">Criminality</a>
-    <a href="#districts">Districts</a>
-    <a href="#maps">Maps</a>
+    <a href="#dataset">Dataset</a>
+    <a href="#criminality">Criminality</a>
+    <a href="#spatial">Spatial Analysis</a>
+    <a href="#temporal">Temporal Analysis</a>
   </div>
 </nav>
 
@@ -621,87 +620,70 @@
       the issue. Could we use previous data on drug/narcotics crime to fight this new epidemic?
     </p>
 
-    <div class="section-nav">
-      <a href="#categories" class="section-nav-item">
-        <span class="section-nav-number">01</span>
-        <span class="section-nav-title">Dataset</span>
-      </a>
-      <a href="#overtime" class="section-nav-item">
-        <span class="section-nav-number">02</span>
-        <span class="section-nav-title">Criminality</span>
-      </a>
-      <a href="#districts" class="section-nav-item">
-        <span class="section-nav-number">03</span>
-        <span class="section-nav-title">Districts</span>
-      </a>
-      <a href="#maps" class="section-nav-item">
-        <span class="section-nav-number">04</span>
-        <span class="section-nav-title">Maps</span>
-      </a>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Category</div>
+        <div class="stat-value">Drugs / Narcotic</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Dataset period</div>
+        <div class="stat-value">2003–2025</div>
+      </div>
     </div>
-  </div>
+  </div>  
 
   <hr class="divider" />
 
-  <!-- SECTION 1: Dataset Explanation -->
+ <!-- SECTION 1: Dataset Explanation -->
   <section class="section fade-in" id="categories">
     <div class="section-label">Section 01</div>
     <h2>Dataset Overview and Methodology</h2>
-
+ 
     <div class="editorial-body">
       <p>
-        To understand where San Francisco stands today, you first have to know where it has been.
-        We pulled two open records from the SF Police Department — stitched together into a single,
-        unbroken timeline that stretches across more than two decades of street-level data.
+        Every crime leaves a paper trail. For over two decades, San Francisco's Police Department
+        has been quietly logging each one — the what, the where, the when. We took that trail
+        and followed it all the way back to <strong>2003</strong>.
       </p>
-
+ 
       <div class="inline-stat">
         <span class="inline-stat-value">22 years</span>
-        <span class="inline-stat-label">of continuous crime data, from 2003 to 2025</span>
+        <span class="inline-stat-label">of unbroken street-level data, from 2003 to 2025</span>
       </div>
-
+ 
       <p>
-        Each incident in both datasets carries the same essential details: the type of offence,
-        the date and time it was reported, and the exact district where it occurred.
-        That consistency is what makes the comparison possible — and what makes the drug numbers so striking.
+        Two separate datasets, published openly on <strong>SF OpenData</strong>, cover this span.
+        We stitched them together into a single continuous record — aligned on crime type,
+        date, district, and coordinates — so the story could be told without gaps.
+        The overlap was clean. The picture that emerged was not.
       </p>
-
+ 
       <div class="inline-stat">
         <span class="inline-stat-value">2 datasets</span>
-        <span class="inline-stat-label">merged on crime category, district, date, and coordinates</span>
+        <span class="inline-stat-label">merged into one unified timeline — 2003–2018 and 2018–2025</span>
       </div>
-
+ 
       <p>
-        Both records are published on <strong>SF OpenData</strong> and are freely accessible to the public.
-        The older file covers 2003 to 2018; the newer one picks up from 2018 through 2025,
-        giving us a rare, long-range lens on how one city's relationship with drugs has shifted over time.
+        The data spans from over<strong> 32 categories</strong> between the 2 datasets. However, to ensure 
+        consistency across the entire timeline, we focused our analysis on the 11 categories that are present 
+        in both datasets. 
       </p>
-    </div>
-
-    <div class="tag-group">
-      <div class="editorial-body">
-        <p>
-          The data covers <strong>11 crime categories</strong>, ranging from violent offences to quality-of-life incidents.
-          Drug and narcotic crimes are our primary focus — but the full picture includes assault, warrants,
-          larceny and theft, robbery, motor vehicle theft, vandalism, forgery, liquor law violations,
-          prostitution, and suicide-related incidents.
-        </p>
-
-        <div class="inline-stat">
-          <span class="inline-stat-value">11 categories</span>
-          <span class="inline-stat-label">from violent crime to drug offences, all tracked across the full timeline</span>
-        </div>
-
-        <p>
-          Geographically, the data is divided across <strong>10 police districts</strong> — Central, Southern, Bayview,
-          Mission, Park, Richmond, Ingleside, Taraval, Northern, and Tenderloin.
-          The Tenderloin has been at the epicentre of the fentanyl crisis, but patterns shift across all districts over time.
-        </p>
-
-        <div class="inline-stat">
-          <span class="inline-stat-value">10 districts</span>
-          <span class="inline-stat-label">covering every neighbourhood in San Francisco, from Bayview to the Tenderloin</span>
-        </div>
+ 
+      <div class="inline-stat">
+        <span class="inline-stat-value">11 categories</span>
+        <span class="inline-stat-label">assault · warrants · theft · robbery · vandalism · forgery · liquor laws · prostitution · suicide · drugs</span>
+      </div>
+ 
+      <p>
+        Geographically, the city is divided into <strong>10 police districts</strong>. Each has its own
+        character, its own rhythms — and its own relationship with the drug crisis.
+        None more so than the Tenderloin, which sits at the epicentre of what is now
+        San Francisco's most urgent public health emergency.
+      </p>
+ 
+      <div class="inline-stat">
+        <span class="inline-stat-value">10 districts</span>
+        <span class="inline-stat-label">Central · Southern · Bayview · Mission · Park · Richmond · Ingleside · Taraval · Northern · Tenderloin</span>
       </div>
     </div>
 
@@ -709,35 +691,32 @@
 
   <hr class="divider" />
 
-  <section class="section fade-in" id="overtime">
+  <!-- SECTION 2: Criminality-->
+  <section class="section fade-in" id="criminality">
     <div class="section-label">Section 02</div>
     <h2>How did the crimes evolve over time?</h2>
 
-    <div class="chart-text-row">
       <div class="chart-block">
-        <div class="chart-title">Criminality throughout the years</div>
-        <div class="chart-sub">Share of total incidents across all recorded years</div>
-        <img src="images/crime2.png" alt="Crime categories throughout the years" />
-      </div>
-       <p> 
-          Most offenses bottomed out during 2019–2021 — but narcotics are the exception.
-          We are seeing a <strong>relentless, exponential increase</strong> that mirrors the crisis of 2005–2010.
-        </p>
-        <div class="insight-divider"></div>
-        <ul class="insight-bullets">
-          <li>Most crimes peaked, then declined after 2021</li>
-          <li class="accent">Drug offences never stopped rising</li>
-          <li>The pattern looks like the 2005–2010 crisis</li>
-        </ul>
-      </div>
+      <div class="chart-title">Criminality throughout the years</div>
+      <div class="chart-sub">Share of total incidents across all recorded years</div>
+      <img src="images/crime2.png" alt="Crime categories throughout the years" />
     </div>
-
+ 
+    <div class="insight-card">
+      <div class="insight-eyebrow">Key finding</div>
+      <p class="insight-body">
+        Most offenses bottomed out during 2019–2021 — but narcotics are the exception.
+        We are seeing a <strong>relentless, exponential increase</strong> that mirrors the crisis of 2005–2010.
+      </p>
+    </div>
+  
+ 
   </section>
 
   <hr class="divider" />
 
-  <!-- SECTION 3: DISTRICTS -->
-  <section class="section fade-in" id="districts">
+  <!-- SECTION 3: SPATIAL ANALYSIS -->
+  <section class="section fade-in" id="spatial">
     <div class="section-label">Section 03</div>
     <h2>Where does crime concentrate?</h2>
     <p>
@@ -754,8 +733,8 @@
 
   <hr class="divider" />
 
-  <!-- SECTION 4: MAPS -->
-  <section class="section fade-in" id="maps">
+  <!-- SECTION 4: TEMPORAL ANALYSIS -->
+  <section class="section fade-in" id="temporal">
     <div class="section-label">Section 04</div>
     <h2>Mapping crime across the city</h2>
     <p>
