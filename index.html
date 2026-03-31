@@ -85,7 +85,7 @@
     .hero {
       padding: 4rem 0 2.5rem;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
 
     .hero-tag {
@@ -130,7 +130,7 @@
       color: var(--muted);
       border-left: 3px solid var(--accent);
       padding-left: 1.25rem;
-      margin-bottom: 3rem;
+      margin: 2rem 0;
     }
 
     /* ── SECTIONS ── */
@@ -319,6 +319,7 @@
 <nav>
   <a class="nav-brand" href="#">SF Crime Analysis</a>
   <div class="nav-links">
+    <a href="#overview">Overview</a>
     <a href="#categories">Categories</a>
     <a href="#overtime">Over time</a>
     <a href="#districts">Districts</a>
@@ -331,10 +332,9 @@
   <!-- HERO -->
   <header class="hero fade-in">
     <span class="hero-tag">Narcotic Crime Data Analysis · San Francisco</span>
-    <h1>How to fight the recent fentanyl crisis in San Francisco?
-</h1>
+    <h1>How to fight the recent fentanyl crisis in San Francisco?</h1>
     <div class="hero-meta">
-      <span>By <strong>Maria Vendas & Diogo Forte</strong></span>
+      <span>By <strong>Maria Vendas &amp; Diogo Forte</strong></span>
       <span class="dot">·</span>
       <span>Social Data Analysis</span>
       <span class="dot">·</span>
@@ -342,75 +342,60 @@
     </div>
   </header>
 
-  <p class="lead fade-in">
-    San Francisco is currently undergoing a fentanyl crisis, as many other cities in the United States. A crime data analysis revealed that the city has suffered a previous drug crisis and was able to mitigate the issue. Could we use previous data on drug/narcotics crime to fight this new epidemic?
-  </p>
-
-  <!-- SECTION 1: CATEGORIES -->
-  <section class="section fade-in" id="categories">
-    <div class="section-label">Section 01</div>
-    <h2>Crime Evaluation in San Francisco</h2>
-    <p>
-      To study the crime evolution in the city of San Francico we used 2 datasets from the SF OpenData platform: 
-      the "Police Department Incident Reports frim 2003 to 2018" and the "Police Department Incident Reports
-      from 2018 to 2025". These datasets contain detailed records of crime incidents reported to the San Francisco
-      Police Department, including information on the type of crime, location, date, and time. 
-      By analyzing these datasets, we can gain insights into crime trends, patterns, and hotspots 
-      across different neighborhoods in San Francisco. 
+  <!-- LEAD & STATS (outside <header>, properly wrapped) -->
+  <div class="fade-in" id="overview">
+    <p class="lead">
+      San Francisco is currently undergoing a fentanyl crisis, as many other cities in the United States.
+      A crime data analysis revealed that the city has suffered a previous drug crisis and was able to mitigate
+      the issue. Could we use previous data on drug/narcotics crime to fight this new epidemic?
     </p>
 
     <div class="stat-row">
       <div class="stat-card">
         <div class="stat-label">Category</div>
-        <div class="stat-value">Drugs/Narcotic</div>
+        <div class="stat-value">Drugs / Narcotic</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Dataset period</div>
-        <div class="stat-value">2003-2025</div>
+        <div class="stat-value">2003–2025</div>
       </div>
     </div>
+  </div>
 
-    <div class="chart-block">
-      <div class="chart-title">Criminality throughout the years</div>
-      <div class="chart-sub">Share of total incidents across all recorded years</div>
-      <img src="images/crime_by_category_linear.png" alt="Crime by category" />
-    </div>
+  <hr class="divider" />
 
+  <!-- SECTION 1: Dataset Explanation -->
+  <section class="section fade-in" id="categories">
+    <div class="section-label">Section 01</div>
+    <h2>Dataset Overview and Methodology</h2>
     <p>
-      The log-scale view below reveals the full range of crime types — from thousands of theft incidents down to rare offences — without the most frequent categories flattening everything else into invisibility.
+      To study the crime evolution in the city of San Francisco we used two datasets from the SF OpenData platform:
+      the "Police Department Incident Reports from 2003 to 2018" and the "Police Department Incident Reports
+      from 2018 to 2025". These datasets contain detailed records of crime incidents reported to the San Francisco
+      Police Department, including information on the type of crime, location, date, and time.
+      By analyzing these datasets, we can gain insights into crime trends, patterns, and hotspots
+      across different neighborhoods in San Francisco.
     </p>
-
-    <div class="chart-block">
-      <div class="chart-title">Crime by category (log scale)</div>
-      <div class="chart-sub">Logarithmic scale to compare across orders of magnitude</div>
-      <img src="images/crime_by_category_log.png" alt="Crime by category log scale" />
-    </div>
-
-    <div class="callout">
-      <strong>Key insight:</strong> Theft-related crimes account for a disproportionately large share of incidents, while violent crimes — though serious — represent a much smaller fraction of the total caseload.
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Crime category over date (log)</div>
-      <div class="chart-sub">Temporal distribution of categories on a log scale</div>
-      <img src="images/crime_category_date_log.png" alt="Crime category date log" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Distribution of theft incidents (log)</div>
-      <div class="chart-sub">How theft sub-types are distributed</div>
-      <img src="images/distribution_theft_log.png" alt="Distribution theft log" />
-    </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- SECTION 2: OVER TIME -->
+  <!-- SECTION 2: CATEGORIES / OVER TIME -->
   <section class="section fade-in" id="overtime">
     <div class="section-label">Section 02</div>
-    <h2>How has crime changed over time?</h2>
+    <h2>How did the crimes evolve over time?</h2>
+
+    <div class="chart-block">
+      <div class="chart-title">Criminality throughout the years</div>
+      <div class="chart-sub">Share of total incidents across all recorded years</div>
+      <img src="images/crime_plot.png" alt="Crime categories throughout the years" />
+    </div>
+
     <p>
-      Crime is not static. Looking at trends over the years reveals important shifts — some driven by policy changes, others by social and economic forces. The overall trend shows notable variation both before and after key events like the 2008 financial crisis and the COVID-19 pandemic.
+      Time changes many things, but crime patterns usually follow a predictable ebb and flow. Most offenses bottomed out during the 2019–2021 period,
+      but narcotics are the exception to the rule. We are seeing a relentless, exponential increase that mirrors
+      the crisis of 2005–2010. To help fight this non-stop surge, we are analyzing whether drug districts and
+      temporal habits have evolved, or if history is simply repeating itself.
     </p>
 
     <div class="chart-block">
@@ -419,117 +404,22 @@
       <img src="images/yearly_crime_trends.png" alt="Yearly crime trends" />
     </div>
 
-    <div class="chart-block">
-      <div class="chart-title">Crime trends over time by category</div>
-      <div class="chart-sub">Annual totals broken down by crime type</div>
-      <img src="images/crimes_overtime_category.png" alt="Crimes over time by category" />
-    </div>
-
-    <p>
-      Linear regression helps separate the signal from the noise. Below, trend lines for each category show whether crime is genuinely rising, falling, or staying flat over the long run.
-    </p>
-
-    <div class="chart-block">
-      <div class="chart-title">Crime trends — linear regression</div>
-      <div class="chart-sub">Long-run direction of each crime category</div>
-      <img src="images/crime_trends_lr.png" alt="Crime trends linear regression" />
-    </div>
-
-    <div class="chart-block">
-      <div class="interactive-badge">Interactive</div>
-      <div class="chart-title">Explore crime trends by district</div>
-      <div class="chart-sub">Filter by district and crime type — click to interact</div>
-      <div class="iframe-wrap">
-        <iframe src="visualizations/ct_rate_district_interactive.html" height="520" loading="lazy"></iframe>
-      </div>
-    </div>
-
-    <div class="chart-block">
-      <div class="interactive-badge">Interactive</div>
-      <div class="chart-title">Weekly crime amounts by district</div>
-      <div class="chart-sub">Day-of-week patterns across neighbourhoods</div>
-      <div class="iframe-wrap">
-        <iframe src="visualizations/ct_amount_week_district_interactive.html" height="520" loading="lazy"></iframe>
-      </div>
-    </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- SECTION 3: DISTRICTS -->
+  <!-- SECTION 3: Drugs/Narcotics  -->
   <section class="section fade-in" id="districts">
     <div class="section-label">Section 03</div>
-    <h2>Where does crime concentrate?</h2>
+    <h2>Actions to take</h2>
     <p>
-      Crime is far from evenly distributed across San Francisco's neighbourhoods. Some districts consistently see higher incident rates — a pattern that holds even when controlling for population size and density.
     </p>
-
     <div class="chart-block">
       <div class="chart-title">Crime by district</div>
       <div class="chart-sub">Total incidents per police district</div>
       <img src="images/crimes_district.png" alt="Crime by district" />
     </div>
 
-    <div class="chart-block">
-      <div class="chart-title">Crime by district (bar chart)</div>
-      <div class="chart-sub">Ranked comparison across all districts</div>
-      <img src="images/crimes_district_bar.png" alt="Crime by district bar" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Heatmap — crime by district and category</div>
-      <div class="chart-sub">Which crime types dominate in each district</div>
-      <img src="images/heatmap_crimes_district.png" alt="Heatmap crimes district" />
-    </div>
-
-    <p>
-      The pairwise correlation plots below reveal which crime categories tend to co-occur across districts — a signal of underlying social conditions rather than coincidence.
-    </p>
-
-    <div class="chart-block">
-      <div class="chart-title">Pairwise category correlation</div>
-      <div class="chart-sub">How crime types relate to one another</div>
-      <img src="images/pairwise_category_correlation.png" alt="Pairwise category correlation" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Pairwise crime correlation</div>
-      <div class="chart-sub">Correlation matrix across crime types</div>
-      <img src="images/pairwise_crime_corrrelation.png" alt="Pairwise crime correlation" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Crimes per 100m² by district</div>
-      <div class="chart-sub">Density-adjusted comparison — less than 100m² threshold</div>
-      <img src="images/lt_100msquare.png" alt="Less than 100m square" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Crime density — SF 100m² grid</div>
-      <div class="chart-sub">Full spatial density across the city</div>
-      <img src="images/sf_100msquare.png" alt="SF 100m square" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Crime rate by district — regression</div>
-      <div class="chart-sub">Regression plot per district</div>
-      <img src="images/rp_crime_district.png" alt="Regression plot crime district" />
-    </div>
-
-    <div class="chart-block">
-      <div class="chart-title">Crime rate heatmap by district — regression</div>
-      <div class="chart-sub">Regression heatmap view</div>
-      <img src="images/rp_crime_district_heatmap.png" alt="Regression heatmap crime district" />
-    </div>
-
-    <div class="chart-block">
-      <div class="interactive-badge">Interactive</div>
-      <div class="chart-title">Crime rate by district — interactive</div>
-      <div class="chart-sub">Filter and explore by district</div>
-      <div class="iframe-wrap">
-        <iframe src="visualizations/crime_rate_district_interactive.html" height="520" loading="lazy"></iframe>
-      </div>
-    </div>
   </section>
 
   <hr class="divider" />
@@ -539,7 +429,7 @@
     <div class="section-label">Section 04</div>
     <h2>Mapping crime across the city</h2>
     <p>
-      Maps bring the spatial dimension to life. The interactive maps below let you zoom in, pan around, and filter by crime type — revealing geographic clusters that static charts cannot fully convey.
+      Maps bring the spatial dimension to life. The interactive map below lets you zoom in, pan around, and filter by crime type — revealing geographic clusters that static charts cannot fully convey.
     </p>
 
     <div class="chart-block">
@@ -551,32 +441,11 @@
       </div>
     </div>
 
-    <div class="chart-block">
-      <div class="interactive-badge">Interactive</div>
-      <div class="chart-title">Crime density heatmap</div>
-      <div class="chart-sub">Hotspot intensity map across SF neighbourhoods</div>
-      <div class="iframe-wrap">
-        <iframe src="visualizations/mapheatmap.html" height="560" loading="lazy"></iframe>
-      </div>
-    </div>
-
-    <div class="callout">
-      <strong>Note:</strong> The prostitution heatmap below highlights a specific crime category that shows a highly concentrated spatial pattern — a common finding in urban crime research.
-    </div>
-
-    <div class="chart-block">
-      <div class="interactive-badge">Interactive</div>
-      <div class="chart-title">Prostitution incidents heatmap</div>
-      <div class="chart-sub">Spatial concentration of a specific crime category</div>
-      <div class="iframe-wrap">
-        <iframe src="visualizations/mapheatmapProstitution.html" height="560" loading="lazy"></iframe>
-      </div>
-    </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>Data source: <a href="https://data.sfgov.org" target="_blank">SF OpenData</a> · Analysis by Diogo Forte · DTU 4th Semester, Social Data Analysis · March 2026</p>
+    <p>Data source: <a href="https://data.sfgov.org" target="_blank">SF OpenData</a> · Analysis by Maria Vendas &amp; Diogo Forte · DTU 4th Semester, Social Data Analysis · April 2026</p>
     <p style="margin-top:6px;">Built with Python, Matplotlib, Folium, and GitHub Pages.</p>
   </footer>
 
