@@ -137,6 +137,7 @@
     .section {
       margin-bottom: 4rem;
       scroll-margin-top: 70px;
+      /* animation state managed by scroll observer — see bottom of file */
     }
 
     .section-label {
@@ -199,6 +200,164 @@
       font-size: 12px;
       color: var(--muted);
       margin-top: 2px;
+    }
+
+    /* ── SIDE-BY-SIDE CHART + TEXT ── */
+    .chart-text-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      align-items: center;
+      margin: 1.75rem 0;
+    }
+
+    .chart-text-row.text-left {
+      direction: rtl;
+    }
+    .chart-text-row.text-left > * {
+      direction: ltr;
+    }
+
+    .chart-text-row .side-text {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .chart-text-row .side-text p {
+      margin-bottom: 0;
+      max-width: 100%;
+    }
+
+    @media (max-width: 620px) {
+      .chart-text-row,
+      .chart-text-row.text-left {
+        grid-template-columns: 1fr;
+        direction: ltr;
+      }
+    }
+
+    /* ── INSIGHT CARD ── */
+    .insight-card {
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 1.6rem 1.5rem 1.4rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      height: 100%;
+    }
+
+    .insight-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+
+    .insight-quote {
+      font-family: 'Lora', serif;
+      font-size: 72px;
+      line-height: 0.6;
+      color: var(--tan);
+      user-select: none;
+      margin-bottom: 0.25rem;
+    }
+
+    .insight-body {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text);
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .insight-body strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .insight-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.25rem 0;
+    }
+
+    .insight-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0;
+      margin: 0;
+    }
+
+    .insight-bullets li {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .insight-bullets li::before {
+      content: '';
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--tan);
+      flex-shrink: 0;
+    }
+
+    .insight-bullets li.accent::before {
+      background: var(--accent);
+    }
+
+    /* ── EDITORIAL LAYOUT (Section 1) ── */
+    .editorial-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .editorial-body p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.85;
+      margin: 0;
+      max-width: 680px;
+    }
+
+    .editorial-body strong {
+      color: var(--text);
+    }
+
+    .inline-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      border-left: 3px solid var(--accent);
+      padding: 0.5rem 0 0.5rem 1.1rem;
+      margin: 0.25rem 0;
+    }
+
+    .inline-stat-value {
+      font-family: 'Lora', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--dark);
+      white-space: nowrap;
+    }
+
+    .inline-stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
     }
 
     /* ── CHART BLOCKS ── */
@@ -305,27 +464,45 @@
 
     footer a { color: var(--brown); }
 
-    /* ── FADE-IN ── */
+    /* ── SCROLL ANIMATIONS ── */
+
+    /* Page-load elements: simple fade up */
     .fade-in {
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
-    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Sections: fade in from below when entering, fade out upward when leaving */
+    .section {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .section.in-view {
+      opacity: 1;
+      transform: none;
+    }
+    .section.past {
+      opacity: 0;
+      transform: translateY(-28px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    /* Section is below the viewport — pre-positioned to slide up into view */
+    .section.hidden-below {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: none;
+    }
   </style>
 </head>
 <body>
-
-<nav>
-  <a class="nav-brand" href="#">SF Crime Analysis</a>
-  <div class="nav-links">
-    <a href="#overview">Overview</a>
-    <a href="#categories">Categories</a>
-    <a href="#overtime">Over time</a>
-    <a href="#districts">Districts</a>
-    <a href="#maps">Maps</a>
-  </div>
-</nav>
 
 <div class="page">
 
@@ -350,6 +527,43 @@
       the issue. Could we use previous data on drug/narcotics crime to fight this new epidemic?
     </p>
 
+  <hr class="divider" />
+
+  <!-- SECTION 1: Dataset Explanation -->
+  <section class="section fade-in" id="categories">
+    <div class="section-label">Section 01</div>
+    <h2>Dataset Overview and Methodology</h2>
+
+    <div class="editorial-body">
+      <p>
+        To understand where San Francisco stands today, you first have to know where it has been.
+        We pulled two open records from the SF Police Department — stitched together into a single,
+        unbroken timeline that stretches across more than two decades of street-level data.
+      </p>
+
+      <div class="inline-stat">
+        <span class="inline-stat-value">22 years</span>
+        <span class="inline-stat-label">of continuous crime data, from 2003 to 2025</span>
+      </div>
+
+      <p>
+        Each incident in both datasets carries the same essential details: the type of offence,
+        the date and time it was reported, and the exact district where it occurred.
+        That consistency is what makes the comparison possible — and what makes the drug numbers so striking.
+      </p>
+
+      <div class="inline-stat">
+        <span class="inline-stat-value">2 datasets</span>
+        <span class="inline-stat-label">merged on crime category, district, date, and coordinates</span>
+      </div>
+
+      <p>
+        Both records are published on <strong>SF OpenData</strong> and are freely accessible to the public.
+        The older file covers 2003 to 2018; the newer one picks up from 2018 through 2025,
+        giving us a rare, long-range lens on how one city's relationship with drugs has shifted over time.
+      </p>
+    </div>
+
     <div class="stat-row">
       <div class="stat-card">
         <div class="stat-label">Category</div>
@@ -360,60 +574,46 @@
         <div class="stat-value">2003–2025</div>
       </div>
     </div>
-  </div>
 
-  <hr class="divider" />
-
-  <!-- SECTION 1: Dataset Explanation -->
-  <section class="section fade-in" id="categories">
-    <div class="section-label">Section 01</div>
-    <h2>Dataset Overview and Methodology</h2>
-    <p>
-      To study the crime evolution in the city of San Francisco we used two datasets from the SF OpenData platform:
-      the "Police Department Incident Reports from 2003 to 2018" and the "Police Department Incident Reports
-      from 2018 to 2025". These datasets contain detailed records of crime incidents reported to the San Francisco
-      Police Department, including information on the type of crime, location, date, and time.
-      By analyzing these datasets, we can gain insights into crime trends, patterns, and hotspots
-      across different neighborhoods in San Francisco.
-    </p>
   </section>
-
-  <hr class="divider" />
-
-  <!-- SECTION 2: CATEGORIES / OVER TIME -->
   <section class="section fade-in" id="overtime">
     <div class="section-label">Section 02</div>
     <h2>How did the crimes evolve over time?</h2>
 
-    <div class="chart-block">
-      <div class="chart-title">Criminality throughout the years</div>
-      <div class="chart-sub">Share of total incidents across all recorded years</div>
-      <img src="images/crime_plot.png" alt="Crime categories throughout the years" />
-    </div>
-
-    <p>
-      Time changes many things, but crime patterns usually follow a predictable ebb and flow. Most offenses bottomed out during the 2019–2021 period,
-      but narcotics are the exception to the rule. We are seeing a relentless, exponential increase that mirrors
-      the crisis of 2005–2010. To help fight this non-stop surge, we are analyzing whether drug districts and
-      temporal habits have evolved, or if history is simply repeating itself.
-    </p>
-
-    <div class="chart-block">
-      <div class="chart-title">Yearly crime trends</div>
-      <div class="chart-sub">Total incidents per year, all categories combined</div>
-      <img src="images/yearly_crime_trends.png" alt="Yearly crime trends" />
+    <div class="chart-text-row">
+      <div class="chart-block">
+        <div class="chart-title">Criminality throughout the years</div>
+        <div class="chart-sub">Share of total incidents across all recorded years</div>
+        <img src="images/crime_plot.png" alt="Crime categories throughout the years" />
+      </div>
+      <div class="insight-card">
+        <div class="insight-eyebrow">Key finding</div>
+        <div class="insight-quote">&ldquo;</div>
+        <p class="insight-body">
+          Most offenses bottomed out during 2019–2021 — but narcotics are the exception.
+          We are seeing a <strong>relentless, exponential increase</strong> that mirrors the crisis of 2005–2010.
+        </p>
+        <div class="insight-divider"></div>
+        <ul class="insight-bullets">
+          <li>Most crimes peaked, then declined after 2021</li>
+          <li class="accent">Drug offences never stopped rising</li>
+          <li>The pattern looks like the 2005–2010 crisis</li>
+        </ul>
+      </div>
     </div>
 
   </section>
 
   <hr class="divider" />
 
-  <!-- SECTION 3: Drugs/Narcotics  -->
+  <!-- SECTION 3: DISTRICTS -->
   <section class="section fade-in" id="districts">
     <div class="section-label">Section 03</div>
-    <h2>Actions to take</h2>
+    <h2>Where does crime concentrate?</h2>
     <p>
+      Crime is far from evenly distributed across San Francisco's neighbourhoods. Some districts consistently see higher incident rates — a pattern that holds even when controlling for population size and density.
     </p>
+
     <div class="chart-block">
       <div class="chart-title">Crime by district</div>
       <div class="chart-sub">Total incidents per police district</div>
@@ -452,10 +652,42 @@
 </div>
 
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  /* ── Page-load fade-ins (hero, lead, stats) ── */
+  const loadObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        loadObserver.unobserve(e.target);
+      }
+    });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-in').forEach(el => loadObserver.observe(el));
+
+  /* ── Section scroll animations ── */
+  let lastScrollY = window.scrollY;
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    const scrollingDown = window.scrollY >= lastScrollY;
+    lastScrollY = window.scrollY;
+
+    entries.forEach(e => {
+      const el = e.target;
+      if (e.isIntersecting) {
+        el.classList.remove('past', 'hidden-below');
+        el.classList.add('in-view');
+      } else {
+        if (scrollingDown) {
+          el.classList.remove('in-view', 'hidden-below');
+          el.classList.add('past');
+        } else {
+          el.classList.remove('in-view', 'past');
+          el.classList.add('hidden-below');
+        }
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.section').forEach(el => sectionObserver.observe(el));
 </script>
 
 </body>
