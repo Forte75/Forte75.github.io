@@ -499,7 +499,34 @@
       opacity: 0;
       transform: translateY(32px);
       transition: none;
-    }
+    }/* Section 3 buttons */
+  .district-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* space between buttons */
+    margin: 1.5rem 0;
+  }
+
+  .district-btn {
+    background-color: var(--accent); /* main button color */
+    color: var(--accent-lt); /* text color */
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    width: 100%; /* full width of container */
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .district-btn:hover {
+    background-color: var(--accent-lt);
+    color: var(--accent);
+    transform: translateY(-3px);
+}
+    
   </style>
 </head>
 <body>
@@ -607,18 +634,44 @@
   <hr class="divider" />
 
   <!-- SECTION 3: DISTRICTS -->
-  <section class="section fade-in" id="districts">
-    <div class="section-label">Section 03</div>
-    <h2>Where does crime concentrate?</h2>
-    <p>
-      Crime is far from evenly distributed across San Francisco's neighbourhoods. Some districts consistently see higher incident rates — a pattern that holds even when controlling for population size and density.
-    </p>
+<section class="section fade-in" id="districts">
+  <div class="section-label">Section 03</div>
+  <h2>Where does crime concentrate?</h2>
+  <p>
+    Crime is far from evenly distributed across San Francisco's neighbourhoods. Some districts consistently see higher incident rates — a pattern that holds even when controlling for population size and density.
+  </p>
 
-    <div class="chart-block">
-      <div class="chart-title">Crime by district</div>
-      <div class="chart-sub">Total incidents per police district</div>
-      <img src="images/crimes_district.png" alt="Crime by district" />
+  <!-- Button container -->
+  <div class="district-buttons">
+  <button class="district-btn">Where</button>
+
+  <!-- Plotly container for "Where" visualization -->
+  <div id="plotly-where" class="chart-block" style="display:none; margin-top:1rem;">
+    <div class="chart-title">Crime Locations Across Districts</div>
+    <div class="chart-sub">Interactive map showing where incidents occur</div>
+    <div id="plotly-where-div" style="width:100%;height:400px;"></div>
+  </div>
+</div>
+
+    <button class="district-btn">When</button>
+
+    <!-- Visualization container appears below first button -->
+    <div id="district-vis" class="chart-block" style="display:none; margin-top:1rem;">
+      <div class="chart-title" id="district-vis-title"></div>
+      <div class="chart-sub" id="district-vis-sub"></div>
+      <div class="iframe-wrap">
+        <iframe id="district-iframe" src="" height="400" loading="lazy"></iframe>
+      </div>
     </div>
+  </div>
+
+  <!-- Original static chart stays below everything else -->
+  <div class="chart-block" style="margin-top:2rem;">
+    <div class="chart-title">Crime by district</div>
+    <div class="chart-sub">Total incidents per police district</div>
+    <img src="visualizations/map_years.html" alt="Crime by district" />
+  </div>
+</section>
 
   </section>
 
@@ -652,42 +705,81 @@
 </div>
 
 <script>
-  /* ── Page-load fade-ins (hero, lead, stats) ── */
-  const loadObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        loadObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.fade-in').forEach(el => loadObserver.observe(el));
+/* ── Page-load fade-ins (hero, lead, stats) ── */
+const loadObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      loadObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
 
-  /* ── Section scroll animations ── */
-  let lastScrollY = window.scrollY;
+document.querySelectorAll('.fade-in').forEach(el => loadObserver.observe(el));
 
-  const sectionObserver = new IntersectionObserver((entries) => {
-    const scrollingDown = window.scrollY >= lastScrollY;
-    lastScrollY = window.scrollY;
+/* ── Section scroll animations ── */
+let lastScrollY = window.scrollY;
 
-    entries.forEach(e => {
-      const el = e.target;
-      if (e.isIntersecting) {
-        el.classList.remove('past', 'hidden-below');
-        el.classList.add('in-view');
+const sectionObserver = new IntersectionObserver((entries) => {
+  const scrollingDown = window.scrollY >= lastScrollY;
+  lastScrollY = window.scrollY;
+
+  entries.forEach(e => {
+    const el = e.target;
+    if (e.isIntersecting) {
+      el.classList.remove('past', 'hidden-below');
+      el.classList.add('in-view');
+    } else {
+      if (scrollingDown) {
+        el.classList.remove('in-view', 'hidden-below');
+        el.classList.add('past');
       } else {
-        if (scrollingDown) {
-          el.classList.remove('in-view', 'hidden-below');
-          el.classList.add('past');
-        } else {
-          el.classList.remove('in-view', 'past');
-          el.classList.add('hidden-below');
-        }
+        el.classList.remove('in-view', 'past');
+        el.classList.add('hidden-below');
       }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.section').forEach(el => sectionObserver.observe(el));
+document.querySelectorAll('.section').forEach(el => sectionObserver.observe(el));
+
+/* ── District buttons: show visualization under first button ── */
+const districtButtons = document.querySelectorAll('.district-btn');
+const visContainer = document.getElementById('district-vis');
+const visTitle = document.getElementById('district-vis-title');
+const visSub = document.getElementById('district-vis-sub');
+const visIframe = document.getElementById('district-iframe');
+
+districtButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const type = btn.textContent.toLowerCase();
+
+    if (type === 'where') {
+      visTitle.textContent = 'Crime Locations Across Districts';
+      visSub.textContent = 'Interactive map showing where incidents occur';
+      visIframe.src = 'visualizations/where_map.html';
+    } else if (type === 'when') {
+      visTitle.textContent = 'Crime Trends Over Time';
+      visSub.textContent = 'Interactive timeline of incidents per year';
+      visIframe.src = 'visualizations/when_chart.html';
+    }
+
+    // Show the visualization container
+    visContainer.style.display = 'block';
+
+    // Add fade-in animation
+    visContainer.style.opacity = 0;
+    visContainer.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      visContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      visContainer.style.opacity = 1;
+      visContainer.style.transform = 'translateY(0)';
+    }, 10);
+
+    // Scroll smoothly to visualization
+    visContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
 </script>
 
 </body>
