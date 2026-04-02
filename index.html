@@ -582,33 +582,40 @@
       opacity: 0;
       transform: translateY(32px);
       transition: none;
-    }/* Section 3 buttons */
-  .district-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* space between buttons */
-    margin: 1.5rem 0;
-  }
+    }
 
-  .district-btn {
-    background-color: var(--accent); /* main button color */
-    color: var(--accent-lt); /* text color */
-    font-family: 'Lora', serif;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    padding: 0.9rem 1rem;
-    width: 100%; /* full width of container */
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-  }
+    /* ── Section 3 buttons ── */
+    .district-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
 
-  .district-btn:hover {
-    background-color: var(--accent-lt);
-    color: var(--accent);
-    transform: translateY(-3px);
-}
+    .district-btn {
+      background-color: var(--accent);
+      color: var(--cream);
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      font-weight: 600;
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .district-btn:hover {
+      background-color: var(--cream);
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(184, 74, 30, 0.2);
+    }
+
+    .district-btn:active {
+      transform: translateY(-1px);
+    }
     
   </style>
 </head>
@@ -643,8 +650,8 @@
   <div class="fade-in" id="overview">
     <p class="lead">
       San Francisco is currently undergoing a fentanyl crisis, as many other cities in the United States.
-      A crime data analysis revealed that the city has suffered a previous drug crisis and was able to mitigate
-      the issue. Could we use previous data on drug/narcotics crime to fight this new epidemic?
+      A crime data analysis revealed that drug crimes in the city have peaked before and that the issue was mitigated. 
+      Could previous data on drug related crimes be relevant to fight this new epidemic?
     </p>
 
     <div class="stat-row">
@@ -653,8 +660,8 @@
         <div class="stat-value">Drugs / Narcotic</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Dataset period</div>
-        <div class="stat-value">2003–2025</div>
+        <div class="stat-label">Drug related crimes in 2025</div>
+        <div class="stat-value">+6000</div>
       </div>
     </div>
   </div>  
@@ -664,7 +671,7 @@
  <!-- SECTION 1: Dataset Explanation -->
   <section class="section fade-in" id="categories">
     <div class="section-label">Section 01</div>
-    <h2>Dataset Overview and Methodology</h2>
+    <h2>San Francisco's Crime Dataset</h2>
  
     <div class="editorial-body">
       <p>
@@ -721,7 +728,7 @@
   <!-- SECTION 2: Criminality-->
   <section class="section fade-in" id="criminality">
     <div class="section-label">Section 02</div>
-    <h2>How did the crimes evolve over time?</h2>
+    <h2>COVID-19: The Aftermath</h2>
 
       <div class="chart-block">
       <div class="chart-title">Criminality throughout the years</div>
@@ -742,68 +749,103 @@
 
   <hr class="divider" />
 
-  <!-- SECTION 3: SPATIAL ANALYSIS -->
-  <section class="section fade-in" id="spatial">
+  <!-- SECTION 3: Spatial Analysis -->
+  <section class="section" id="spatial">
     <div class="section-label">Section 03</div>
-    <h2>Where does crime concentrate?</h2>
+    <h2>How Does The Crisis Moves Through The City?</h2>
+
     <p>
-      Crime is far from evenly distributed across San Francisco's neighbourhoods. Some districts consistently see higher incident rates — a pattern that holds even when controlling for population size and density.
+      A lot can be learnt from the past and we believe the fight against drug crime in San Francisco is one of those situations.
+      The two peaks in drug-related incidents in the city were compared to understand two main questions: where do these crimes happen and when?
     </p>
 
-  <!-- Button container -->
-  <div class="district-buttons">
-  <button class="district-btn">Where</button>
 
-  <!-- Plotly container for "Where" visualization -->
-  <div id="plotly-where" class="chart-block" style="display:none; margin-top:1rem;">
-    <div class="chart-title">Crime Locations Across Districts</div>
-    <div class="chart-sub">Interactive map showing where incidents occur</div>
-    <div id="plotly-where-div" style="width:100%;height:400px;"></div>
-  </div>
-</div>
-
-    <button class="district-btn">When</button>
-
-    <!-- Visualization container appears below first button -->
-    <div id="district-vis" class="chart-block" style="display:none; margin-top:1rem;">
-      <div class="chart-title" id="district-vis-title"></div>
-      <div class="chart-sub" id="district-vis-sub"></div>
-      <div class="iframe-wrap">
-        <iframe id="district-iframe" src="" height="400" loading="lazy"></iframe>
-      </div>
+    <div class="inline-stat">
+      <span class="inline-stat-value">The <em>Where</em></span>
     </div>
-  </div>
 
-  <!-- Original static chart stays below everything else -->
-  <div class="chart-block" style="margin-top:2rem;">
-    <div class="chart-title">Crime by district</div>
-    <div class="chart-sub">Total incidents per police district</div>
-    <img src="visualizations/map_years.html" alt="Crime by district" />
-  </div>
-</section>
-
-  </section>
-
-  <hr class="divider" />
-
-  <!-- SECTION 4: TEMPORAL ANALYSIS -->
-  <section class="section fade-in" id="temporal">
-    <div class="section-label">Section 04</div>
-    <h2>Mapping crime across the city</h2>
     <p>
-      Maps bring the spatial dimension to life. The interactive map below lets you zoom in, pan around, and filter by crime type — revealing geographic clusters that static charts cannot fully convey.
+      For a given year, we divided the number of drug offenses in a district by the average number of drug offenses across all 
+      districts that year. This approach allows us to see, within each year, which districts have above-average crime levels relative 
+      to others (Figure 2).
     </p>
+
 
     <div class="chart-block">
-      <div class="interactive-badge">Interactive</div>
-      <div class="chart-title">Crime incident map</div>
-      <div class="chart-sub">All recorded incidents plotted by location — zoom and filter to explore</div>
-      <div class="iframe-wrap">
-        <iframe src="visualizations/map.html" height="560" loading="lazy"></iframe>
-      </div>
+    <div class="chart-title" style="font-style: italic; font-weight: normal;">Figure 2: Drug crime ratio over San Francisco's districts.</div>
+    <div class="chart-sub">A ratio below one indicates that the number of crimes in that district is lower than the average number of 
+      crimes in all districts in that year, while above 1 indicates it is higher. This way, colder colors mean smaller ratios and warmer colors mean higher ratios. </div>
+
+    <div class="iframe-wrap" style="position: relative; width: 100%; padding-bottom: 65%; height: 0; overflow: hidden;">
+      <iframe src="visualizations/map_final.html" 
+        style="position: absolute; top:0; left:0; width:100%; height:100%; border:0; background: var(--parchment);">
+</iframe>
+    </div>
+    </div>
+    
+    <p> Scrolling to the year of 2009, the most affected districts were Tenderloin, Southern and Mission, being the only districts above 
+      the year's average. In 2024 and 2025 only the same three had ratios higher than 1, being clearly the most affected. It is also evident that
+      these three districts consistently have higher crime levels than the rest of the city for almost every year, even when drug crime occurences were not very high.
+      A difference between the first peak around 2009 and the current one is that in the present the drug crimes seem to be more concentrated in Tenderloin than in Mission and Southern.
+    </p>
+
+
+    <div class="inline-stat">
+      <span class="inline-stat-value">The <em>When</em></span>
     </div>
 
+    <p>
+      The frequency of these incidents varies across hours and weekdays and similar to the figure above we can see that change 
+      over the years in Figure 3.
+    </p>
+
+
+    <div class="chart-block">
+    <div class="chart-title" style="font-style: italic; font-weight: normal;">Figure 3: Heatmap of drug incidents per year (Hour vs Weekday)</div>
+    <div class="chart-sub"> For each year, the range of values changes since now we are presenting counts and not a ratio. Still, darker colors indicate a higher count than lighter ones. </div>
+
+    <div class="iframe-wrap" style="position: relative; width: 100%; padding-bottom: 65%; height: 0; overflow: hidden;">
+      <iframe src="visualizations/heatmap.html" 
+        style="position: absolute; top:0; left:0; width:100%; height:100%; border:0; background: var(--parchment);">
+</iframe>
+    </div>
+    </div>
+    
+    <p> Looking at the 2009 frame, the crimes were mostly commited between 10h and 20h. This is a consistent pattern across years 
+      with some years spreading a bit more to after 20h, which can be seen in 2024. Regarding the weekday, most crimes occur 
+      around Tuesday, Wednesday and Thursday, another pattern that is repeated along the years.
+</p>
+    
   </section>
+
+
+<hr class="divider" />
+
+  <section class="section fade-in" id="criminality">
+    <div class="section-label">Section 04</div>
+    <h2> A <em> How</em> rooted in the city's history</h2>
+
+    <p>
+     From the previous section, we can see that in 2009 and today, the patterns are the same. In fact, these patterns are also present 
+     in other years. Drug offenses happen in the same places and at the same times. At first, the lack of difference between the years 
+     when drug crimes peaked and the years they did not might make the analysis seem inconclusive, but it actually uncovers a major issue. 
+     The consistency in where and when these incidents occur points to underlying structural vulnerabilities in these neighborhoods.
+    </p>
+
+    <p>
+      So back in the day, the problem was heroin, now it is fentanyl and in the next decade it could be a new drug. And why? Because solving
+       this issue requires addressing the root problem: the high susceptibility of these areas. Fighting the fentanyl epidemic in San 
+       Francisco should not be just about fentanyl or drugs, it should be about tackling the social and economic challenges that make 
+       these neighborhoods vulnerable. Measures against drugs are important, but the focus should be mainly on improving the social and 
+       economic conditions in these areas.
+    </p>
+
+    <p> The analysis did not reveal potential traces of measures taken back in 2010 but brought up a systematic issue in the San Francisco 
+      city whose mitigation could lead to a more sustainable fight to drug related crimes.</p>
+  
+ 
+  </section>
+
 
   <!-- FOOTER -->
   <footer>
@@ -823,16 +865,16 @@ const loadObserver = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.08 });
-
+ 
 document.querySelectorAll('.fade-in').forEach(el => loadObserver.observe(el));
-
+ 
 /* ── Section scroll animations ── */
 let lastScrollY = window.scrollY;
-
+ 
 const sectionObserver = new IntersectionObserver((entries) => {
   const scrollingDown = window.scrollY >= lastScrollY;
   lastScrollY = window.scrollY;
-
+ 
   entries.forEach(e => {
     const el = e.target;
     if (e.isIntersecting) {
@@ -849,47 +891,52 @@ const sectionObserver = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-
+ 
 document.querySelectorAll('.section').forEach(el => sectionObserver.observe(el));
-
-/* ── District buttons: show visualization under first button ── */
-const districtButtons = document.querySelectorAll('.district-btn');
-const visContainer = document.getElementById('district-vis');
-const visTitle = document.getElementById('district-vis-title');
-const visSub = document.getElementById('district-vis-sub');
-const visIframe = document.getElementById('district-iframe');
-
-districtButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const type = btn.textContent.toLowerCase();
-
-    if (type === 'where') {
-      visTitle.textContent = 'Crime Locations Across Districts';
-      visSub.textContent = 'Interactive map showing where incidents occur';
-      visIframe.src = 'visualizations/where_map.html';
-    } else if (type === 'when') {
-      visTitle.textContent = 'Crime Trends Over Time';
-      visSub.textContent = 'Interactive timeline of incidents per year';
-      visIframe.src = 'visualizations/when_chart.html';
-    }
-
-    // Show the visualization container
-    visContainer.style.display = 'block';
-
-    // Add fade-in animation
-    visContainer.style.opacity = 0;
-    visContainer.style.transform = 'translateY(20px)';
+ 
+/* ── District buttons: show visualization below each button ── */
+// Where button
+const whereBtn = document.querySelector('[data-type="where"]');
+const whereVis = document.getElementById('where-vis');
+ 
+// When button
+const whenBtn = document.querySelector('[data-type="when"]');
+const whenVis = document.getElementById('when-vis');
+ 
+whereBtn.addEventListener('click', () => {
+  const isVisible = whereVis.style.display === 'block';
+  
+  if (!isVisible) {
+    // Show with animation
+    whereVis.style.display = 'block';
+    whereVis.style.opacity = 0;
+    whereVis.style.transform = 'translateY(20px)';
+    
     setTimeout(() => {
-      visContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      visContainer.style.opacity = 1;
-      visContainer.style.transform = 'translateY(0)';
+      whereVis.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      whereVis.style.opacity = 1;
+      whereVis.style.transform = 'translateY(0)';
     }, 10);
-
-    // Scroll smoothly to visualization
-    visContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
+  }
+});
+ 
+whenBtn.addEventListener('click', () => {
+  const isVisible = whenVis.style.display === 'block';
+  
+  if (!isVisible) {
+    // Show with animation
+    whenVis.style.display = 'block';
+    whenVis.style.opacity = 0;
+    whenVis.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+      whenVis.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      whenVis.style.opacity = 1;
+      whenVis.style.transform = 'translateY(0)';
+    }, 10);
+  }
 });
 </script>
-
+ 
 </body>
 </html>
