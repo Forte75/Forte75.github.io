@@ -624,10 +624,10 @@
 <nav>
   <a class="nav-brand" href="#">SF Crime Analysis</a>
   <div class="nav-links">
-    <a href="#dataset">Dataset</a>
-    <a href="#criminality">Criminality</a>
-    <a href="#spatial">Spatial Analysis</a>
-    <a href="#temporal">Temporal Analysis</a>
+    <a href="#section1">Section 1</a>
+    <a href="#section2">Section 2</a>
+    <a href="#section3">Section 3</a>
+    <a href="#section4">Section 4</a>
   </div>
 </nav>
 
@@ -650,7 +650,8 @@
   <div class="fade-in" id="overview">
     <p class="lead">
       San Francisco is currently undergoing a fentanyl crisis, as many other cities in the United States.
-      A crime data analysis revealed that drug crimes in the city have peaked before and that the issue was mitigated. 
+      A crime data analysis revealed that drug crimes in the city have peaked before and that the issue was 
+      mitigated. 
       Could previous data on drug related crimes be relevant to fight this new epidemic?
     </p>
 
@@ -669,27 +670,26 @@
   <hr class="divider" />
 
  <!-- SECTION 1: Dataset Explanation -->
-  <section class="section fade-in" id="categories">
+  <section class="section fade-in" id="section1">
     <div class="section-label">Section 01</div>
     <h2>San Francisco's Crime Dataset</h2>
  
     <div class="editorial-body">
       <p>
         Every crime leaves a paper trail. For over two decades, San Francisco's Police Department
-        has been quietly logging each one — the what, the where, the when. We took that trail
+        has been quietly logging each one: the what, the where, the when. We took that trail
         and followed it all the way back to <strong>2003</strong>.
       </p>
  
       <div class="inline-stat">
         <span class="inline-stat-value">22 years</span>
-        <span class="inline-stat-label">of unbroken street-level data, from 2003 to 2025</span>
+        <span class="inline-stat-label">of multiple crime data, from 2003 to 2025</span>
       </div>
  
       <p>
         Two separate datasets, published openly on <strong>SF OpenData</strong>, cover this span.
-        We stitched them together into a single continuous record — aligned on crime type,
-        date, district, and coordinates — so the story could be told without gaps.
-        The overlap was clean. The picture that emerged was not.
+        We stitched them together into a single continuous record (aligned on crime category,
+        date, time, year, week day, police district, and coordinates) so the story could be told without gaps.
       </p>
  
       <div class="inline-stat">
@@ -699,20 +699,18 @@
  
       <p>
         The data spans from over<strong> 32 categories</strong> between the 2 datasets. However, to ensure 
-        consistency across the entire timeline, we focused our analysis on the 11 categories that are present 
+        consistency across the entire timeline, we focused our analysis on the 9 categories that are present 
         in both datasets. 
       </p>
  
       <div class="inline-stat">
-        <span class="inline-stat-value">11 categories</span>
-        <span class="inline-stat-label">assault · warrants · theft · robbery · vandalism · forgery · liquor laws · prostitution · suicide · drugs</span>
+        <span class="inline-stat-value">9 categories</span>
+        <span class="inline-stat-label">assault · Larceny/theft · robbery · vandalism · forgery/counterfeiting · liquor laws · prostitution · drug/narcotics · Motor Vehicle Theft</span>
       </div>
  
       <p>
         Geographically, the city is divided into <strong>10 police districts</strong>. Each has its own
-        character, its own rhythms — and its own relationship with the drug crisis.
-        None more so than the Tenderloin, which sits at the epicentre of what is now
-        San Francisco's most urgent public health emergency.
+        character, and its own relationship with the drug crisis.
       </p>
  
       <div class="inline-stat">
@@ -725,32 +723,37 @@
 
   <hr class="divider" />
 
-  <!-- SECTION 2: Criminality-->
-  <section class="section fade-in" id="criminality">
+  <!-- SECTION 2: COVID-19 Aftermath -->
+  <section class="section fade-in" id="section2">
     <div class="section-label">Section 02</div>
     <h2>COVID-19: The Aftermath</h2>
 
+    <p>
+      The COVID-19 pandemic was a global event that disrupted many aspects of life, including crime patterns.
+      In San Francisco, most of the crimes showed a similar behaviour: a significant drop during the pandemic years (2020 and 2021) followed by a sharp increase in 2022 and 2023, returning to pre-pandemic levels.
+      However, drug/narcotics crimes did not follow this pattern. Instead, they showed a relentless increase throughout the years, with no signs of slowing down even during the pandemic.
+    </p>
+
       <div class="chart-block">
-      <div class="chart-title">Criminality throughout the years</div>
-      <div class="chart-sub">Share of total incidents across all recorded years</div>
-      <img src="images/crime2.png" alt="Crime categories throughout the years" />
+      <div class="chart-title">Crime Incidents throughout the years</div>
+      <div class="chart-sub">Total number of incidents across all recorded years for each crime category</div>
+      <img src="images/crime2.png"  style="width: 100%; max-width: 900px; display: block; margin: 0 auto;" />
     </div>
- 
-    <div class="insight-card">
-      <div class="insight-eyebrow">Key finding</div>
-      <p class="insight-body">
-        Most offenses bottomed out during 2019–2021 — but narcotics are the exception.
-        We are seeing a <strong>relentless, exponential increase</strong> that mirrors the crisis of 2005–2010.
-      </p>
-    </div>
-  
+    <p>
+      The behaviour of drug crimes after the pandemic is not an isolated case. In fact, drug crimes have been increasing since 2018, 
+      with a sharper increase in 2024 and 2025. This pattern is in line with the current fentanyl crisis in the city, which has been 
+      worsening since 2023. 
+      However, we can observe the data suggests that the drug crime epidemic in San Francisco is not a new issue. Between 2008 and 2010 
+      there was a similar peak in drug crimes, which was mitigated in the following years. This raises the question: Could the data from 
+      the previous epidemic be similar to the current one (geographically and temporally), so it can help mitigate the crisis? 
+    </p>
  
   </section>
 
   <hr class="divider" />
 
-  <!-- SECTION 3: Spatial Analysis -->
-  <section class="section" id="spatial">
+  <!-- SECTION 3: Where and When -->
+  <section class="section" id="section3">
     <div class="section-label">Section 03</div>
     <h2>How Does The Crisis Moves Through The City?</h2>
 
@@ -821,7 +824,8 @@
 
 <hr class="divider" />
 
-  <section class="section fade-in" id="criminality">
+  <!-- SECTION 4: How -->
+  <section class="section fade-in" id="section4">
     <div class="section-label">Section 04</div>
     <h2> A <em> How</em> rooted in the city's history</h2>
 
@@ -894,49 +898,7 @@ const sectionObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
  
 document.querySelectorAll('.section').forEach(el => sectionObserver.observe(el));
- 
-/* ── District buttons: show visualization below each button ── */
-// Where button
-const whereBtn = document.querySelector('[data-type="where"]');
-const whereVis = document.getElementById('where-vis');
- 
-// When button
-const whenBtn = document.querySelector('[data-type="when"]');
-const whenVis = document.getElementById('when-vis');
- 
-whereBtn.addEventListener('click', () => {
-  const isVisible = whereVis.style.display === 'block';
-  
-  if (!isVisible) {
-    // Show with animation
-    whereVis.style.display = 'block';
-    whereVis.style.opacity = 0;
-    whereVis.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-      whereVis.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      whereVis.style.opacity = 1;
-      whereVis.style.transform = 'translateY(0)';
-    }, 10);
-  }
-});
- 
-whenBtn.addEventListener('click', () => {
-  const isVisible = whenVis.style.display === 'block';
-  
-  if (!isVisible) {
-    // Show with animation
-    whenVis.style.display = 'block';
-    whenVis.style.opacity = 0;
-    whenVis.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-      whenVis.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      whenVis.style.opacity = 1;
-      whenVis.style.transform = 'translateY(0)';
-    }, 10);
-  }
-});
+
 </script>
  
 </body>
